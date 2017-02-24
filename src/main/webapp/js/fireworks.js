@@ -43,7 +43,7 @@ var Fireworks = (function() {
     fireworkContext = fireworkCanvas.getContext('2d');
 
     // set up the colours for the fireworks
-    createFireworkPalette(1);
+    createFireworkPalette(12);
 
     // set the dimensions on the canvas
     setMainCanvasDimensions();
@@ -71,7 +71,7 @@ var Fireworks = (function() {
    */
   function createFireworkPalette(gridSize) {
 
-    var size = gridSize * 1;
+    var size = gridSize * 10;
     fireworkCanvas.width = size;
     fireworkCanvas.height = size;
     fireworkContext.globalCompositeOperation = 'source-over';
@@ -116,7 +116,7 @@ var Fireworks = (function() {
    * black. The bonus of this is the trails effect we get
    */
   function clearContext() {
-    mainContext.fillStyle = "rgba(0,0,0,0.2)";
+    mainContext.fillStyle = "rgba(0, 0, 0, 0.2)";
     mainContext.fillRect(0, 0, viewportWidth, viewportHeight);
   }
 
@@ -295,7 +295,7 @@ Particle.prototype = {
 
     // draw the line from where we were to where
     // we are now
-    context.fillStyle = "rgba(255,255,255,0.3)";
+    context.fillStyle = "rgba(0, 0, 0,0.3)";
     context.beginPath();
     context.moveTo(this.pos.x, this.pos.y);
     context.lineTo(this.pos.x + 1.5, this.pos.y);
@@ -366,7 +366,7 @@ var FireworkExplosions = {
     var points          = 6 + Math.round(Math.random() * 15);
     var jump            = 3 + Math.round(Math.random() * 7);
     var subdivisions    = 10;
-    var radius          = 10;
+    var radius          = 80;
     var randomVelocity  = -(Math.random() * 3 - 6);
 
     var start           = 0;
@@ -418,7 +418,7 @@ var FireworkExplosions = {
             x: Math.cos(subAngle) * randomVelocity,
             y: Math.sin(subAngle) * randomVelocity
           },
-          firework.color,
+            Math.floor(Math.random() * 100) * 12,
           true);
       }
 
