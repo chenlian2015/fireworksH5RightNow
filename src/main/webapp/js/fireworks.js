@@ -61,8 +61,9 @@ var Fireworks = (function() {
    * Pass through function to create a
    * new firework on touch / click
    */
-  function createFirework() {
-    createParticle();
+  function createFirework(event) {
+
+    createParticle({x:event.x, y:event.y});
   }
 
   /**
@@ -116,7 +117,7 @@ var Fireworks = (function() {
    * black. The bonus of this is the trails effect we get
    */
   function clearContext() {
-    mainContext.fillStyle = "rgba(0, 0, 0, 0.2)";
+    mainContext.fillStyle = "rgba(0, 0, 0, 0.5)";
     mainContext.fillRect(0, 0, viewportWidth, viewportHeight);
   }
 
@@ -170,12 +171,12 @@ var Fireworks = (function() {
         // position
         {
           x: pos.x || viewportWidth * 0.5,
-          y: pos.y || viewportHeight + 10
+          y: pos.y
         },
 
         // target
         {
-          y: target.y || 150 + Math.random() * 100
+          y: pos.y
         },
 
         // velocity
@@ -295,7 +296,7 @@ Particle.prototype = {
 
     // draw the line from where we were to where
     // we are now
-    context.fillStyle = "rgba(0, 0, 0,0.3)";
+    context.fillStyle = "rgba(0, 0, 0, 0.3)";
     context.beginPath();
     context.moveTo(this.pos.x, this.pos.y);
     context.lineTo(this.pos.x + 1.5, this.pos.y);
