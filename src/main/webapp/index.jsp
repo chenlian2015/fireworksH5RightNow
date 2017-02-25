@@ -18,7 +18,35 @@
 <body>
 <div style="text-align:center;clear:both"></div>
 <canvas id="canvas">Canvas is not supported.</canvas>
-<script>window.requestAnimFrame = (function () {
+
+<script src="resources/sockjs-0.3.4.js"></script>
+<script src="resources/stomp.js"></script>
+
+<script>
+    function connect() {
+        var socket = new SockJS('/Spring4WebSocket/add');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function(frame) {
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/topic/showResult', function(calResult){
+                showResult(JSON.parse(calResult.body).result);
+            });
+        });
+    }
+
+
+    function showResult(message) {
+
+        var obj = JSON.parse(message);
+                if (obj) {
+                    mx = cw * (obj['x'] / 100);
+                    my = ch * (obj['y'] / 100);
+                    mousedown = true;
+                }
+        console.log('showResult: ' + message);
+    }
+
+    window.requestAnimFrame = (function () {
     return window.requestAnimationFrame ||
         window.webkitRequestAnimationFrame ||
         window.mozRequestAnimationFrame ||
@@ -225,33 +253,33 @@ function loop() {
     }
 }
 
-function showJson() {
-    var test;
-    if (window.XMLHttpRequest) {
-        test = new XMLHttpRequest();
-    } else if (window.ActiveXObject) {
-        test = new window.ActiveXObject();
-    } else {
-        alert("请升级至最新版本的浏览器");
-    }
-    if (test != null) {
-        test.open("GET", "http://mca.ayona333.com/index.php?m=index&a=ppt", true);
-        test.send(null);
-        test.onreadystatechange = function () {
-            if (test.readyState == 4 && test.status == 200) {
-                var obj = JSON.parse(test.responseText);
-                if (obj['status'] == 1) {
-                    mx = cw * (obj['x'] / 100);
-                    my = ch * (obj['y'] / 100);
-                    mousedown = true;
-                } else {
-
-                }
-            }
-        };
-
-    }
-}
+//function showJson() {
+//    var test;
+//    if (window.XMLHttpRequest) {
+//        test = new XMLHttpRequest();
+//    } else if (window.ActiveXObject) {
+//        test = new window.ActiveXObject();
+//    } else {
+//        alert("请升级至最新版本的浏览器");
+//    }
+//    if (test != null) {
+//        test.open("GET", "http://mca.ayona333.com/index.php?m=index&a=ppt", true);
+//        test.send(null);
+//        test.onreadystatechange = function () {
+//            if (test.readyState == 4 && test.status == 200) {
+//                var obj = JSON.parse(test.responseText);
+//                if (obj['status'] == 1) {
+//                    mx = cw * (obj['x'] / 100);
+//                    my = ch * (obj['y'] / 100);
+//                    mousedown = true;
+//                } else {
+//
+//                }
+//            }
+//        };
+//
+//    }
+//}
 
 canvas.addEventListener('mousemove', function (e) {
     mx = e.pageX - canvas.offsetLeft;
@@ -283,7 +311,7 @@ canvas.addEventListener('touchend', function (e) {
 
 window.onload = function () {
     loop();
-    window.onload = setInterval(showJson, 1000);
+    connect();
 }
 </script>
 </body>

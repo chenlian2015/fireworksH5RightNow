@@ -25,7 +25,7 @@ public class WebSocketController implements IFireGreetingListener {
     @SendTo("/topic/showResult")
     public Result addNum(CalcInput input) throws Exception {
 
-        Result result = new Result(input.getNum1()+"+"+input.getNum2()+"="+(input.getNum1()+input.getNum2())+"  threadid:"+Thread.currentThread().getId()+"  instance:"+this.hashCode());
+        Result result = new Result("{\"x\":"+input.getNum1()+","+"\"y\":"+input.getNum2()+"}");
         return result;
     }
     
