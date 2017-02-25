@@ -37,6 +37,8 @@
         function sendNum() {
             var num1 = document.getElementById('num1').value;
             var num2 = document.getElementById('num2').value;
+            //var num1 = parseInt(Math.random()*100);
+            //var num2 = parseInt(Math.random()*100);
             stompClient.send("/calcApp/add", {}, JSON.stringify({ 'num1': num1, 'num2': num2 }));
         }
 

@@ -42,6 +42,8 @@
                     mx = cw * (obj['x'] / 100);
                     my = ch * (obj['y'] / 100);
                     mousedown = true;
+
+                    fireworks.push(new Firework(mx, my, mx, my));
                 }
         console.log('showResult: ' + message);
     }
@@ -200,7 +202,7 @@ Particle.prototype.draw = function () {
 
 function createParticles(x, y) {
 
-    var particleCount = 30;
+    var particleCount = 60;
     while (particleCount--) {
         particles.push(new Particle(x, y));
     }
@@ -232,25 +234,15 @@ function loop() {
         particles[i].draw();
         particles[i].update(i);
     }
-    /*
-     if( timerTick >= timerTotal ) {
-     if( !mousedown ) {
 
-     fireworks.push( new Firework( cw / 2, ch, random( 0, cw ), random( 0, ch / 2 ) ) );
-     timerTick = 0;
-     }
-     } else {
-     timerTick++;
-     }
-     */
-    if (limiterTick >= limiterTotal) {
-        if (mousedown) {
-            fireworks.push(new Firework(mx, my, mx, my));
-            limiterTick = 0;
-        }
-    } else {
-        limiterTick++;
-    }
+//    if (limiterTick >= limiterTotal) {
+//        if (mousedown) {
+//            fireworks.push(new Firework(mx, my, mx, my));
+//            limiterTick = 0;
+//        }
+//    } else {
+//        limiterTick++;
+//    }
 }
 
 //function showJson() {
@@ -281,33 +273,22 @@ function loop() {
 //    }
 //}
 
-canvas.addEventListener('mousemove', function (e) {
-    mx = e.pageX - canvas.offsetLeft;
-    my = e.pageY - canvas.offsetTop;
-});
-
 
 canvas.addEventListener('mousedown', function (e) {
-    e.preventDefault();
+    mx = e.pageX - canvas.offsetLeft;
+    my = e.pageY - canvas.offsetTop;
+    fireworks.push(new Firework(mx, my, mx, my));
     mousedown = true;
 });
 
-canvas.addEventListener('mouseup', function (e) {
-    e.preventDefault();
-    mousedown = false;
-});
+
 canvas.addEventListener('touchstart', function (e) {
-    e.preventDefault();
-    mousedown = true;
-});
-canvas.addEventListener('touchmove', function (e) {
     mx = e.pageX - canvas.offsetLeft;
     my = e.pageY - canvas.offsetTop;
+    fireworks.push(new Firework(mx, my, mx, my));
+    mousedown = true;
 });
-canvas.addEventListener('touchend', function (e) {
-    e.preventDefault();
-    mousedown = false;
-});
+
 
 window.onload = function () {
     loop();
