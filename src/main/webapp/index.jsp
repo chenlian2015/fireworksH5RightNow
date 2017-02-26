@@ -173,7 +173,7 @@ function Particle(x, y) {
     this.hue = random(hue - 20, hue + 20);
     this.brightness = random(50, 80);
     this.alpha = 1;
-    this.decay = random(0.015, 0.03);
+    this.decay = random(0.005, 0.01);
 }
 
 
@@ -202,7 +202,7 @@ Particle.prototype.draw = function () {
 
 function createParticles(x, y) {
 
-    var particleCount = 60;
+    var particleCount = 100;
     while (particleCount--) {
         particles.push(new Particle(x, y));
     }
